@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="#0b1220"/>
+  <circle cx="100" cy="100" r="72" fill="none" stroke="url(#g)" stroke-width="6"/>
+  <text x="100" y="106" font-size="88" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700" fill="#e2e8f0" text-anchor="middle" dominant-baseline="central">阿</text>
+</svg>

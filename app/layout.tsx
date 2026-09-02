@@ -1,8 +1,5 @@
 import 'katex/dist/katex.min.css';
 import type { Metadata } from "next";
-// ⚠️ 不再使用 next/font/google：构建时需从 Google Fonts 下载字体，
-// 国内云平台（EdgeOne Pages / 阿里云 FC 等）构建环境访问不了，会导致构建失败。
-// 字体改用 globals.css 中定义的本地系统字体栈（思源宋体/宋体兜底链）。
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
 import BackgroundEffects from "../components/BackgroundEffects";
@@ -18,9 +15,6 @@ import DanmakuBackground from '../components/DanmakuBackground';
 
 import MobileBackButton from '../components/MobileBackButton';
 
-// 原 next/font/google 的三个字体变量已移除（--font-geist-sans / --font-geist-mono / --font-serif），
-// 字体变量改由 app/globals.css 的 :root 定义，见下方 html className。
-
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.bio,
@@ -34,6 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="zh-CN" className="h-full antialiased" suppressHydrationWarning>
       <head>
+        <link rel="stylesheet" href="https://cdnjs.hoarfall.cn/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
         <style
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
@@ -68,16 +63,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 {!siteConfig.useGradient && <BackgroundSlider />}
                 <div className="absolute inset-0 z-[-9] bg-white/30 dark:bg-slate-900/40 backdrop-blur-md transition-colors duration-1000"></div>
 
-                <div
-                  className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 mix-blend-color transition-opacity duration-1000 transform-gpu"
-                  style={{
-                    background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
-                    backgroundSize: '400% 400%',
-                    animation: 'gradientMove 15s ease infinite' // 🌟 全端保留渐变流动
-                  }}
-                ></div>
+                {/*  仅在渐变模式下渲染流动渐变层；图片背景模式下不渲染，避免全屏重绘动画空转 */}
+                {siteConfig.useGradient && (
+                  <div
+                    className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 mix-blend-color transition-opacity duration-1000 transform-gpu"
+                    style={{
+                      background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
+                      backgroundSize: '400% 400%',
+                      animation: 'gradientMove 15s ease infinite'
+                    }}
+                  ></div>
+                )}
 
-                {/* 👇 🌟 优化：手机端去掉了 mix-blend-overlay，但保留了 blur 模糊光晕，确保视觉不打折 */}
+                {/*   优化：手机端去掉了 mix-blend-overlay，但保留了 blur 模糊光晕，确保视觉不打折 */}
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/40 dark:bg-indigo-900/20 blur-[100px] rounded-full z-[-7] md:mix-blend-overlay"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-400/30 dark:bg-purple-900/30 blur-[100px] rounded-full z-[-7] md:mix-blend-overlay"></div>
 

@@ -78,7 +78,7 @@ export default function ProjectsBoard() {
 
                 <div className="flex items-start justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-4">
-                    <span className="text-4xl">{project.icon}</span>
+                    <i className={`fa-solid ${project.icon} text-4xl`}></i>
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {project.name}
                     </h2>

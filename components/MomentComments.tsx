@@ -36,7 +36,7 @@ export default function MomentComments({ id }: MomentCommentsProps) {
     <div className="w-full relative">
       <div ref={containerRef} className="moment-gitalk" />
 
-      {/* 🌟 朋友圈级专属魔改 CSS：极简、紧凑、无边框 */}
+      {/* 朋友圈级专属魔改 CSS：极简、紧凑、无边框 */}
       <style jsx global>{`
         /* 隐藏掉一些在说说里显得太多余的 Gitalk 原生元素 */
         .moment-gitalk .gt-header-controls-tip,

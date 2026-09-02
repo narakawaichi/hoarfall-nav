@@ -4,16 +4,16 @@ import { siteConfig } from '../../../siteConfig'; // 确保这里的路径指向
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
-  console.log("🚀 [1/5] 路由进入：开始对接 Gemini 3 脑回路");
+  console.log("[1/5] 路由进入：开始对接 Gemini 3 脑回路");
 
   try {
     const { message } = await req.json();
 
-    // 🌟 纯粹靠环境变量读取 API Key
+    // 纯粹靠环境变量读取 API Key
     const apiKey = (process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || '').trim();
 
     if (!apiKey) {
-      console.error("❌ 找不到 API Key");
+      console.error("找不到 API Key");
       return new Response(JSON.stringify({ error: "Key missing" }), { status: 500 });
     }
 
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const modelId = siteConfig.geminiConfig.modelId;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
 
-    console.log(`📡 [2/5] 正在呼叫模型: ${modelId}`);
+    console.log(`[2/5] 正在呼叫模型: ${modelId}`);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -45,24 +45,24 @@ export async function POST(req: Request) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("🚨 Gemini 3 拒绝了请求:", JSON.stringify(data));
+      console.error("Gemini 3 拒绝了请求:", JSON.stringify(data));
       return new Response(JSON.stringify({
         error: `模型拒绝访问: ${response.status}`,
         details: data.error?.message || "未知错误"
       }), { status: response.status });
     }
 
-    console.log("✅ [3/5] Google 成功响应");
+    console.log("[3/5] Google 成功响应");
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "本喵现在不想理你喵...";
 
-    console.log("🎉 [4/5] 回复已生成，准备传回前端");
+    console.log("[4/5] 回复已生成，准备传回前端");
 
     return new Response(JSON.stringify({ reply }), {
       headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error: any) {
-    console.error("🔥 [5/5] 运行时崩溃:", error.message);
+    console.error("[5/5] 运行时崩溃:", error.message);
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }

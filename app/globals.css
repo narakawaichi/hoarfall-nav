@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
+/* 1. 全局自定义字体：CDN 托管字体（cdnjs.hoarfall.cn） */
+@font-face {
+  font-family: 'HoarfallWOFF';
+  src: url('https://cdnjs.hoarfall.cn/hoarfall-woff/13.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 1. 声明暗黑模式变体 */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* 2. 基础环境与性能优化 */
 @layer base {
   :root {
-    /* 字体变量（不再依赖 next/font/google 注入）：
-       构建期无需联网下载字体，国内云平台可直接部署。
-       --font-serif 为全站默认正文衬线，Windows 会落到宋体(SimSun)，
-       若安装了思源宋体/Source Han Serif SC 则优先使用。 */
-    --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", serif;
-    --font-mono: "Cascadia Code", "JetBrains Mono", Consolas, "Courier New", monospace;
+    --font-serif: 'HoarfallWOFF', "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", serif;
   }
 
   body {
@@ -35,13 +38,6 @@
     --tw-prose-body: var(--color-slate-200);
     --tw-prose-headings: var(--color-white);
     --tw-prose-links: var(--color-indigo-400);
-  }
-
-  /* ⚠️ 性能红线：不要在这里给 [class*="backdrop-blur-"] 加 will-change: backdrop-filter。
-     该属性选择器会命中全站上百个元素，每个都被提升为独立合成层并常驻实时模糊，
-     是首页卡顿的最大元凶。模糊动画交给浏览器自行决定层的提升。 */
-  [class*="backdrop-blur-"] {
-    -webkit-backdrop-filter: blur(12px);
   }
 
   .group:hover img {
@@ -98,4 +94,19 @@ input[type=range]::-webkit-slider-thumb {
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+}
+
+/* ========================================================
+   7. 主题瞬间切换优化（消除白/夜切换卡顿）
+   切换瞬间给 <html> 加 .theme-switching，用 !important 临时
+   禁用所有 transition 与 backdrop-filter，瞬时变色、零渐变压力，
+   350ms 后由 ThemeProvider 移除该类，恢复平滑过渡。
+   ======================================================== */
+html.theme-switching *,
+html.theme-switching {
+  transition: none !important;
+}
+html.theme-switching [class*="backdrop-blur-"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }

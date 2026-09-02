@@ -2,41 +2,41 @@
 
 export const siteConfig = {
   // 1. 网站标题与博主信息
-  title: "XingHuiSama の 宝藏之地",
-  faviconUrl: "https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
-  authorName: "XingHuiSama",
-  bio: "在代码、学术与分子动力学模拟间穿梭的普通人。近期正埋头于 GROMACS 模拟研究与神经网络计算。",
+  title: "依落霜 の 精品宝藏",
+  faviconUrl: "https://img.hoarfall.cn/A/6a97d317825b4.ico",
+  authorName: "依岸归",
+  bio: "是喵娘！",
 
-  navTitle: "XingHuiSama",
+  navTitle: "依落霜",
 
-  // 👇 【新增】导航栏中间的那个后缀/分隔符（默认是 の）
+  //  【新增】导航栏中间的那个后缀/分隔符（默认是 の）
   navSuffix: "の",
 
-  navAfter: "宝藏之地",
+  navAfter: "精品宝藏",
 
   // 2. 头像设置 (支持网络链接，或将图片放入 public 文件夹后使用 "/me.jpg")
-  avatarUrl: "https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
+  avatarUrl: "https://img.hoarfall.cn/A/6a97d38d19988.png",
 
   // 3. 网站背景设置 (二选一)
   // 如果想用纯图片背景，请在下面 bgImage 写路径，并将 useGradient 设为 false
   useGradient: false,
   themeColors: ["#a18cd1", "#fbc2eb", "#a1c4fd", "#c2e9fb"], // 呼吸流动的颜色组合
 // 修改这里：变成图片数组
-  bgImages: ["https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4acdb5.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4d9486.jpg"],
+  bgImages: ["https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4acdb5.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4d9486.jpg", "https://img.hoarfall.cn/A/6a934c43535ca.jpg", "https://img.hoarfall.cn/A/6a934c43bb1ea.jpg", "https://img.hoarfall.cn/A/6a934c4240f01.jpg", "https://img.hoarfall.cn/A/6a934c47805ba.jpg"],
 
   // 4. 文章默认封面图 (当 Markdown 没写 cover 时显示)
   defaultPostCover: "https://bu.dusays.com/2026/03/24/69c1e38b346cb.jpg",
 
   // 5. 首页照片墙预览图
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
-  cloudMusicIds: ["1809646618", "3361076230", "1859390262"],
+  cloudMusicIds: ["3398249541", "2092324876", "3326907142", "2609896241", "1973665667", "34723470"],
   social: {
-    github: "",
+    github: "https://github.com/narakawaichi",
     gitee: "",
-    google: "",
-    email: "",
-    qq: "1124533793",
-    wechat: "XingHuisama",
+    google: "mailto:narakawaichi@hoarfall.cn",
+    email: "3454863428@qq.com",
+    qq: "3454863428",
+    wechat: "narakawacihi",
   },
   counts: {
     photos: 128, // 照片墙数量可以手动写死或动态计算
@@ -45,7 +45,7 @@ export const siteConfig = {
   chatterDescription: "代码、学术、提瓦特与泰拉大陆的碎片记录",
 
 
-  // 👇 【新增】：全局背景弹幕配置
+  //  【新增】：全局背景弹幕配置
   danmakuList: ["在干嘛呢？", "有笨蛋嘛？", "前方高能反应！", "GROMACS 跑起来了吗？", "MD 模拟什么时候才能出图啊", "Graph Neural Networks 炼丹中...", "BUG 修复进度 99%", "今天背单词了吗？", "Tailwind CSS 拯救前端", "写算法中", "睡大觉中", "到底在干嘛？"],
   gitalkConfig: {
     clientID: "",
@@ -67,5 +67,5 @@ export const siteConfig = {
     temperature: 0.85,
   },
   friendLinkApplyFormat: "名称：XingHuiSamaの宝藏之地\n简介：今天我也要学习吗\n链接：https://www.xinghuisama.top\n头像：https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
-  enableLevelSystem: true,
+  enableLevelSystem: false,
 };

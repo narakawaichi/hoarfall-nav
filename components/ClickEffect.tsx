@@ -60,16 +60,21 @@ export default function ClickEffect() {
       }
     }
 
-    let animationId: number | null = null;
-    let running = false;
+    // rAF 句柄：无涟漪时停止循环，避免每帧空转清屏
+    let rafId: number | null = null;
 
     const animate = () => {
+      if (ripples.length === 0) {
+        rafId = null;
+        return;
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // 增加全局模糊，让涟漪更有“云端”质感
       ctx.shadowBlur = 15;
       ctx.shadowColor = 'rgba(129, 140, 248, 0.5)';
 
+      // 倒序遍历删除，避免 splice 索引错位
       for (let i = ripples.length - 1; i >= 0; i--) {
         ripples[i].update();
         ripples[i].draw();
@@ -77,22 +82,13 @@ export default function ClickEffect() {
           ripples.splice(i, 1);
         }
       }
-
-      // 关键：没有活跃涟漪时主动停掉 rAF，不再空转常驻吃满每一帧
-      if (ripples.length > 0) {
-        animationId = requestAnimationFrame(animate);
-      } else {
-        running = false;
-        animationId = null;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      rafId = requestAnimationFrame(animate);
     };
 
     const handleClick = (e: MouseEvent) => {
       ripples.push(new Ripple(e.clientX, e.clientY));
-      if (!running) {
-        running = true;
-        animationId = requestAnimationFrame(animate);
+      if (rafId === null) {
+        rafId = requestAnimationFrame(animate);
       }
     };
 
@@ -101,10 +97,10 @@ export default function ClickEffect() {
     return () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('click', handleClick);
-      // 必须取消未完成的帧，否则组件卸载后循环仍在后台跑
-      if (animationId !== null) cancelAnimationFrame(animationId);
-      running = false;
-      animationId = null;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     };
   }, []);
 

@@ -7,7 +7,7 @@ import Gitalk from 'gitalk';
 
 import { siteConfig } from '../siteConfig';
 
-// 🌟 专门为炼金实验室定制的 Gitalk 组件，不影响原有的 Comments.tsx
+// 专门为炼金实验室定制的 Gitalk 组件，不影响原有的 Comments.tsx
 export default function LabComments({ pageId }: { pageId?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -48,7 +48,7 @@ export default function LabComments({ pageId }: { pageId?: string }) {
       <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-indigo-500/10 dark:bg-indigo-500/20 blur-3xl rounded-full pointer-events-none z-0"></div>
       <div ref={containerRef} className="relative z-10 custom-gitalk-glass pt-6 border-t border-slate-200/50 dark:border-slate-700/50" />
 
-      {/* 🌟 保留你原来的毛玻璃样式 */}
+      {/* 保留你原来的毛玻璃样式 */}
       <style jsx global>{`
         .custom-gitalk-glass .gt-container .gt-header-textarea {
           background: rgba(255, 255, 255, 0.1) !important;

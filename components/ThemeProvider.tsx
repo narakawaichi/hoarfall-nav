@@ -39,8 +39,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = () => {
     const newDark = !isDark;
+    // 切换瞬间：给 html 加 .theme-switching → CSS 里临时禁用所有 transition/backdrop-filter，
+    //    避免 108 处毛玻璃+过渡同时做 1 秒渐变导致的卡顿。
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
     setIsDark(newDark);
     localStorage.setItem('blog-theme', newDark ? 'dark' : 'light');
+    // 切换完成后移除，恢复平滑过渡（需稍长于渐变，确保新色已经定下）
+    window.setTimeout(() => root.classList.remove('theme-switching'), 350);
   };
 
   // 在客户端挂载完成前，为了防止闪屏，先隐藏内容
