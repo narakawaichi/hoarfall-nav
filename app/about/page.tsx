@@ -1,4 +1,9 @@
 // src/app/about/page.tsx
+import { buildMetadata } from '@/lib/seo';
+import { rehypeFillImageAlt } from '@/lib/markdown';
+
+export const metadata = buildMetadata({ page: "about" });
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -83,6 +88,7 @@ export default async function AboutPage() {
         subset: ['cpp', 'c', 'python', 'java', 'javascript', 'typescript', 'go', 'rust', 'bash', 'json', 'html', 'css', 'sql', 'xml']
       })
       .use(rehypeKatex)
+      .use(rehypeFillImageAlt)
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(content);
 

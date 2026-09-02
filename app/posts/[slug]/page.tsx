@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Link from 'next/link';
+import type { Metadata } from "next";
 
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -23,6 +24,8 @@ import ClientTOC from '../../../components/ClientTOC';
 import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
+import { buildMetadata, stripMarkdown } from '@/lib/seo';
+import { rehypeFillImageAlt } from '@/lib/markdown';
 
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');
@@ -35,6 +38,35 @@ export async function generateStaticParams() {
     .map((name) => ({
       slug: name.replace(/\.md$/, ''),
     }));
+}
+
+// 轻量读取 frontmatter，供 generateMetadata 使用（不跑 unified 流水线）
+function getPostMeta(slug: string) {
+  const fullPath = path.join(process.cwd(), 'posts', `${slug}.md`);
+  if (!fs.existsSync(fullPath)) return null;
+  const { data, content } = matter(fs.readFileSync(fullPath, 'utf8'));
+  return {
+    title: data.title || "",
+    description: data.description || stripMarkdown(content.replace(/^---[\s\S]*?---/, "")),
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    cover: data.cover || siteConfig.defaultPostCover,
+    date: data.date || "",
+  };
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const meta = getPostMeta(slug);
+  if (!meta) return buildMetadata({ page: "post", canonicalPath: `/posts/${slug}` });
+  return buildMetadata({
+    page: "post",
+    title: meta.title,
+    description: meta.description,
+    keywords: meta.tags,
+    canonicalPath: `/posts/${slug}`,
+    ogImage: meta.cover,
+    publishedTime: meta.date,
+  });
 }
 
 function extractToc(content: string) {
@@ -97,6 +129,7 @@ async function getPostData(slug: string) {
       subset: ['cpp', 'c', 'python', 'java', 'javascript', 'typescript', 'go', 'rust', 'bash', 'json', 'html', 'css', 'sql', 'xml']
     })
     .use(rehypeKatex)
+    .use(rehypeFillImageAlt)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content);
 
@@ -137,7 +170,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
 
           <article className="flex-1 bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 dark:border-white/10 overflow-hidden transition-colors duration-700">
             <div className="w-full aspect-video bg-slate-200 dark:bg-slate-700 relative group">
-              <img src={postData.cover} alt="封面" className="w-full h-full object-cover opacity-90 transition-transform duration-1000 group-hover:scale-105" />
+              <img src={postData.cover} alt={postData.title} className="w-full h-full object-cover opacity-90 transition-transform duration-1000 group-hover:scale-105" />
             </div>
 
             <div className="p-5 md:p-12 relative">
@@ -270,7 +303,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
           <aside className="w-full lg:w-[320px] flex flex-col gap-6 flex-shrink-0">
             <div className="bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl rounded-3xl p-6 border border-white/40 dark:border-white/10 shadow-xl text-center">
               <div className="w-20 h-20 mx-auto rounded-full p-1 bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-md mb-4 transition-transform duration-500 hover:rotate-3">
-                <img src={siteConfig.avatarUrl} alt="avatar" className="w-full h-full rounded-full object-cover bg-white" />
+                <img src={siteConfig.avatarUrl} alt={siteConfig.authorName} className="w-full h-full rounded-full object-cover bg-white" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{siteConfig.authorName}</h3>
               <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium mb-4">{siteConfig.bio}</p>

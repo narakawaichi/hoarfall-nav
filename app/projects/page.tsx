@@ -2,11 +2,9 @@ import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import ProjectsBoard from './ProjectsBoard';
 import {siteConfig} from "@/siteConfig";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "项目矩阵 | " + siteConfig.title,
-  description: "开源项目与代码仓库展示",
-};
+export const metadata = buildMetadata({ page: "projects" });
 
 export default function ProjectsPage() {
   return (

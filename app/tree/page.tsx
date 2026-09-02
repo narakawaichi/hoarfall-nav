@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { buildMetadata } from '@/lib/seo';
+
+export const metadata = buildMetadata({ page: "tree" });
 
 // 引入前台客户端组件
 import CreativeWorkshopClient from './CreativeWorkshopClient';

@@ -6,6 +6,9 @@ import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import { siteConfig } from '../../siteConfig';
+import { buildMetadata } from '@/lib/seo';
+
+export const metadata = buildMetadata({ page: "posts" });
 
 function getPosts() {
   const postsDirectory = path.join(process.cwd(), 'posts');

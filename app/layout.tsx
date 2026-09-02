@@ -10,17 +10,37 @@ import ClickEffect from "../components/ClickEffect";
 import BackgroundSlider from "../components/BackgroundSlider";
 import GlobalToolbox from "../components/GlobalToolbox";
 import SplashScreen from "../components/SplashScreen";
-import CyberCat from '../components/CyberCat';
 import DanmakuBackground from '../components/DanmakuBackground';
 
 import MobileBackButton from '../components/MobileBackButton';
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
-  description: siteConfig.bio,
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: siteConfig.seo.defaultTitle,
+    template: `%s | ${siteConfig.title}`,
+  },
+  description: siteConfig.seo.defaultDescription,
+  keywords: siteConfig.seo.defaultKeywords,
   icons: {
     icon: siteConfig.faviconUrl,
     apple: siteConfig.faviconUrl,
+  },
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.title,
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    url: SITE_URL,
+    images: [{ url: siteConfig.seo.ogImage, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    images: [siteConfig.seo.ogImage],
   },
 };
 
@@ -50,6 +70,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `
           }}
         />
+        {/* 📄 自定义页首 HTML 注入（siteConfig.headerHtml） */}
+        {siteConfig.headerHtml ? (
+          <div dangerouslySetInnerHTML={{ __html: siteConfig.headerHtml }} />
+        ) : null}
       </head>
 
       <body className="w-screen overflow-x-hidden min-h-full flex flex-col relative transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 font-serif">
@@ -121,9 +145,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `}} />
           </MusicProvider>
 
-          <div className="hidden md:block">
-            <CyberCat />
-          </div>
+          {/* 📄 自定义页尾 HTML 注入（siteConfig.footerHtml） */}
+          {siteConfig.footerHtml ? (
+            <div dangerouslySetInnerHTML={{ __html: siteConfig.footerHtml }} />
+          ) : null}
 
         </ThemeProvider>
       </body>

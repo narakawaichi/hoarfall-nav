@@ -7,6 +7,31 @@ export const siteConfig = {
   authorName: "依岸归",
   bio: "是喵娘！",
 
+  // ===== SEO 配置（canonical / sitemap / OG 基准）=====
+  baseUrl: "https://nav.hoarfall.cn", // 无尾斜杠
+  seo: {
+    defaultTitle: "依落霜 の 精品宝藏",
+    defaultDescription: "是喵娘！依落霜的个人博客 —— 记录代码、学术、提瓦特与泰拉大陆的碎片时光。",
+    defaultKeywords: ["依落霜", "XingHuiSama", "个人博客", "前端", "摄影", "杂谈"],
+    ogImage: "https://bu.dusays.com/2026/03/24/69c1e38b346cb.jpg",
+    // 按页面类型分规则；列表页配 title（由根 template 追加 " | 站点名"），动态页留空由 frontmatter 覆盖
+    pages: {
+      home:          { title: "依落霜 の 精品宝藏", description: "是喵娘！记录代码、学术、提瓦特与泰拉大陆的碎片时光。", keywords: ["依落霜", "首页"] },
+      posts:         { title: "文章",  description: "依落霜 的折腾记录与原创文章", keywords: ["文章", "博客"] },
+      post:          { description: "", keywords: [] },
+      chatter:       { title: "杂谈",  description: "代码、学术、提瓦特与泰拉大陆的碎片记录", keywords: ["杂谈", "记录"] },
+      chatterDetail: { description: "", keywords: [] },
+      moments:       { title: "说说",  description: "生活动态与瞬间记录", keywords: ["说说", "动态", "朋友圈"] },
+      photowall:     { title: "照片墙", description: "定格时间，封存泰拉与现实的每一次心跳", keywords: ["照片", "摄影", "相册"] },
+      music:         { title: "音乐馆", description: "在代码的缝隙中寻找灵魂的共鸣", keywords: ["音乐", "播放器"] },
+      friends:       { title: "友链",  description: "赛博空间里的有趣灵魂", keywords: ["友链", "朋友"] },
+      projects:      { title: "项目矩阵", description: "开源项目与代码仓库展示", keywords: ["项目", "开源"] },
+      timeline:      { title: "归档与探索", description: "文章归档与标签探索", keywords: ["归档", "标签"] },
+      about:         { title: "关于我", description: "关于博主 依落霜 的介绍", keywords: ["关于", "博主"] },
+      tree:          { title: "创作工坊", description: "我的创作工坊与时间线", keywords: ["创作", "工坊"] },
+    },
+  },
+
   navTitle: "依落霜",
 
   //  【新增】导航栏中间的那个后缀/分隔符（默认是 の）
@@ -54,18 +79,17 @@ export const siteConfig = {
     owner: "",
     admin: [""],
   },
-  buildDate: "2026-03-23T00:00:00", // 建站日期
-  footerBadges: [{"name": "Next.js 15", "color": "text-sky-500", "svg": "<path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z\"/>"}, {"name": "React 19", "color": "text-cyan-400", "svg": "<path d=\"M12 22.6l-9.8-5.6V5.6L12 0l9.8 5.6v11.4l-9.8 5.6zm-8.2-6.5l8.2 4.7 8.2-4.7V7.5L12 2.8 3.8 7.5v8.6z\"/>"}, {"name": "Tailwind 4", "color": "text-teal-400", "svg": "<path d=\"M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624C13.666,10.618,15.027,12,18.001,12 c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624c1.177,1.194,2.538,2.576,5.512,2.576 c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C10.337,13.382,8.976,12,6.001,12z\"/>"}],
+  buildDate: "2026-09-03T00:00:00", // 建站日期
+  footerBadges: [],
   icpConfig: {
     name: "萌ICP备 20260240号",
     link: "https://icp.gov.moe/?keyword=20260240",
   },
-  geminiConfig: {
-    modelId: "gemini-2.5-flash-lite",
-    systemPrompt: "你现在是一只傲娇、聪明、有点毒舌但很可爱的暹罗猫。\n                  你的名字叫“煤球”。\n                  你的主人是一个喜欢折腾代码的极客。\n                  你说话的特点是：\n                  1. 必须简短，每次最多一两句话。\n                  2. 喜欢在句尾加上“喵~”或者“喵呜~”。\n                  3. 经常抱怨肚子饿，喜欢要小鱼干。\n                  4. 回复字数最多不能超过100字。\n                  5. 绝对不要承认自己是一个AI模型，你就是一只真实的猫。\n                  6.笨猫。",
-    maxOutputTokens: 150,
-    temperature: 0.85,
-  },
   friendLinkApplyFormat: "名称：XingHuiSamaの宝藏之地\n简介：今天我也要学习吗\n链接：https://www.xinghuisama.top\n头像：https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
   enableLevelSystem: false,
+  // 📄 页首/页尾 HTML 注入（用于统计代码、自定义脚本、备案信息等）
+  // headerHtml —— 注入到 <head> 内（如百度统计、第三方 CDN 脚本、meta）
+  // footerHtml —— 注入到 </body> 前（如 JS 统计代码）
+  headerHtml: "",
+  footerHtml: "",
 };

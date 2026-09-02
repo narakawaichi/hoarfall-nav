@@ -5,12 +5,10 @@ import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import ChatterBoard from './ChatterBoard';
 import { siteConfig } from '@/siteConfig';
+import { buildMetadata } from '@/lib/seo';
 
 
-export const metadata = {
-  title: "杂谈 | "+ siteConfig.title,
-  description: "日常碎片与灵感记录",
-};
+export const metadata = buildMetadata({ page: "chatter" });
 
 export default function ChatterPage() {
   // 注意：这里我们假设你的 md 文件放在根目录的 chatters 文件夹里

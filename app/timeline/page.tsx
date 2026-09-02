@@ -7,10 +7,9 @@ import { siteConfig } from '../../siteConfig';
 import TimelineClient from '../../components/TimelineClient';
 // 1. 引入 ToastProvider 喵！
 import { ToastProvider } from '../../components/ToastProvider';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: "归档与探索 | " + siteConfig.title,
-};
+export const metadata = buildMetadata({ page: "timeline" });
 
 export default function Timeline() {
   const postsDirectory = path.join(process.cwd(), 'posts');

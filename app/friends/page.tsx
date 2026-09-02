@@ -2,11 +2,9 @@ import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import FriendsBoard from './FriendsBoard';
 import {siteConfig} from "@/siteConfig";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "友链 | " + siteConfig.title,
-  description: "赛博空间里的有趣灵魂",
-};
+export const metadata = buildMetadata({ page: "friends" });
 
 export default function FriendsPage() {
   return (
