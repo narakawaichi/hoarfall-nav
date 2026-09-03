@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   const page = cleanPage(req.nextUrl.searchParams.get('page'));
   if (!page) return NextResponse.json({ ok: false, error: 'page 参数缺失' }, { status: 400 });
 
-  const list = getComments(page)
+  const list = (await getComments(page))
     .slice()
     .sort((a, b) => a.createdAt - b.createdAt)
     .map((c) => ({
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
   const rawNick = typeof body.nickname === 'string' ? body.nickname.trim().slice(0, 20) : '';
   const nickname = rawNick || email.split('@')[0].slice(0, 20);
 
-  const item = addComment(page, { nickname, email, content });
+  const item = await addComment(page, { nickname, email, content });
   return NextResponse.json({
     ok: true,
     comment: { id: item.id, nickname: item.nickname, emailMasked: maskEmail(item.email), content: item.content, createdAt: item.createdAt },
