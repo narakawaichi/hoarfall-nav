@@ -15,6 +15,9 @@ import DanmakuBackground from '../components/DanmakuBackground';
 import MobileBackButton from '../components/MobileBackButton';
 import { SITE_URL } from "@/lib/seo";
 
+// 全站动态渲染：内容(md)每次请求实时读取 → 后台同步后无需重新构建即可生效
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
