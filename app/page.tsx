@@ -11,8 +11,10 @@ import CloudPlayer from '../components/CloudPlayer';
 import ThemeToggleBlock from '../components/ThemeToggleBlock';
 import ProfileCard from '../components/ProfileCard';
 import SiteDashboard from '../components/SiteDashboard';
+import SiteFooter from '../components/SiteFooter';
 import { albums } from '../data/albums';
 import LyricBar from '../components/LyricBar';
+import SiteLinksCard from '../components/SiteLinksCard';
 import { ToastProvider } from '../components/ToastProvider';
 
 import LatestPostsCarousel from '../components/LatestPostsCarousel';
@@ -117,6 +119,9 @@ export default function Home() {
               {/* 歌词栏 */}
               <div className="w-full mt-[-10px]"><LyricBar/></div>
 
+              {/* 我的网站卡片（歌词栏正下方） */}
+              <SiteLinksCard/>
+
               {/* 第二行：文章轮播 + 照片墙 + 说说 + 主题切换 */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
 
@@ -154,6 +159,9 @@ export default function Home() {
 
               {/* 底部数据面板 */}
               <div className="w-full mt-4"><SiteDashboard/></div>
+
+              {/* 页尾：运行时间 / 技术栈 / 服务支持 */}
+              <SiteFooter/>
             </main>
           </div>
         </PageTransition>

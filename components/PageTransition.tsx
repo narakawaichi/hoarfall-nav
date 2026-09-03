@@ -6,12 +6,12 @@ import { ReactNode } from "react";
 export default function PageTransition({ children }: { children: ReactNode }) {
   return (
     <motion.div
-      // 刚加载页面时：往下偏 20px，完全透明
-      initial={{ y: 20, opacity: 0 }}
-      // 加载完毕后：回到原位，完全不透明
-      animate={{ y: 0, opacity: 1 }}
-      // 动画怎么演：用优雅的弹性物理动画，持续 0.8 秒
-      transition={{ ease: "easeOut", duration: 0.8 }}
+      // 只做轻微上移动画，绝不用 opacity 隐藏内容。
+      // 原因：如果初始 opacity:0，SSR 会把透明样式写进 HTML，手机端 React 水合失败时
+      // 内容会被永久卡在透明态（只看到背景和毛边玻璃）。始终可见才是安全底线。
+      initial={{ y: 20 }}
+      animate={{ y: 0 }}
+      transition={{ ease: "easeOut", duration: 0.4 }}
     >
       {children}
     </motion.div>

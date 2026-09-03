@@ -4,6 +4,13 @@ export interface Album { id: string; title: string; description: string; cover: 
 
 export const albums: Album[] = [
   {
+    "title": "Pixiv",
+    "cover": "https://img.hoarfall.cn/A/6a934c423b183.jpg",
+    "id": "album_1788392137278",
+    "photos": [],
+    "date": "2026-09-02"
+  },
+  {
     "title": "星野喵",
     "cover": "https://img.hoarfall.cn/A/6a934c5d075a2.jpg",
     "id": "album_1788370284289",

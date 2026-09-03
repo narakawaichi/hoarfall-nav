@@ -10,7 +10,11 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setIsMounted(true);
-    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash') === 'true';
+    // 某些手机浏览器/无痕模式下 sessionStorage 不可用，读取失败也不能阻断后续逻辑
+    let hasSeenSplash = false;
+    try {
+      hasSeenSplash = sessionStorage.getItem('hasSeenSplash') === 'true';
+    } catch (e) {}
 
     if (!hasSeenSplash) {
       setShow(true);
@@ -26,7 +30,11 @@ export default function SplashScreen() {
 
   const exitSplash = () => {
     setShow(false);
-    sessionStorage.setItem('hasSeenSplash', 'true');
+    try {
+      sessionStorage.setItem('hasSeenSplash', 'true');
+    } catch (e) {
+      // 存储不可用时忽略，绝不能阻断下面的解封逻辑，否则手机端会白屏
+    }
 
     // 【核心解封】：动画快结束时，给 html 加上类名，CSS 会自动把内容显示出来
     setTimeout(() => {

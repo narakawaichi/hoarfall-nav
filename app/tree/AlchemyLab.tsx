@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircleHeart, ChevronLeft, ChevronRight, BookOpen, ScrollText, Coffee, FileText, Sparkles, Award, Shield, X, Grid, LockKeyhole, Camera, Users, Sprout } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-//  引入定制的无干扰留言板组件与站点配置
-import LabComments from '../../components/LabComments';
+//  引入自研留言板组件与站点配置
+import Comments from '../../components/Comments';
 import { siteConfig } from '../../siteConfig';
 
 //  引入相册与友链数据以统计徽章 (请确保路径正确，如果报错请调整 ../ 的数量)
@@ -360,25 +360,33 @@ export default function AlchemyLab({ posts = [], chatters = [], moments = [] }: 
   useEffect(() => {
     if (!mounted) return;
     let isMounted = true;
-    const fetchGitalkComments = async () => {
+    // 许愿墙：读自研留言板 API（同 label 页面下的留言即许愿）
+    const fetchWishes = async () => {
       try {
-        const { owner, repo } = siteConfig.gitalkConfig;
-        const targetLabel = `workshop-${currentMonthStr}`;
-        const issueRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?labels=${targetLabel}`);
-        const issues = await issueRes.json();
-        if (issues && issues.length > 0) {
-          const commentsRes = await fetch(issues[0].comments_url);
-          const comments = await commentsRes.json();
-          if (isMounted && Array.isArray(comments)) {
-            setRealWishes(comments.map((c: any) => ({ id: c.id.toString(), content: c.body, author: c.user.login, type: 'wish', date: currentMonthStr + '-01' })));
-            return;
-          }
+        const page = `workshop-${currentMonthStr}`;
+        const res = await fetch(`/api/comments?page=${encodeURIComponent(page)}`);
+        const data = await res.json();
+        if (data?.ok && isMounted) {
+          setRealWishes(
+            data.comments.map((c: any) => ({
+              id: c.id,
+              content: c.content,
+              author: c.nickname,
+              type: 'wish',
+              date: currentMonthStr + '-01',
+            })),
+          );
+          return;
         }
-        if (isMounted) setRealWishes([]);
-      } catch (err) { if (isMounted) setRealWishes([]); }
+      } catch (err) {
+        /* 忽略，展示空许愿墙 */
+      }
+      if (isMounted) setRealWishes([]);
     };
-    fetchGitalkComments();
-    return () => { isMounted = false; };
+    fetchWishes();
+    return () => {
+      isMounted = false;
+    };
   }, [currentMonthStr, mounted]);
 
   const { shelvesData, stickyNotes, stats } = useMemo(() => {
@@ -691,7 +699,7 @@ export default function AlchemyLab({ posts = [], chatters = [], moments = [] }: 
          <h2 className="text-xl font-black text-[#8b6b4a] mb-2 font-serif text-center uppercase tracking-widest border-b border-[#8b6b4a]/30 pb-4">
             「 {formattedMonth} 的访客留言簿 」
          </h2>
-         <LabComments key={`gitalk-${currentMonthStr}`} pageId={`workshop-${currentMonthStr}`} />
+         <Comments key={`comments-${currentMonthStr}`} id={`workshop-${currentMonthStr}`} />
       </div>
 
     </motion.div>

@@ -1,6 +1,7 @@
 // src/app/about/page.tsx
 import { buildMetadata } from '@/lib/seo';
 import { rehypeFillImageAlt } from '@/lib/markdown';
+import rehypeSanitizeSafe from '@/lib/sanitize';
 
 export const metadata = buildMetadata({ page: "about" });
 
@@ -89,6 +90,8 @@ export default async function AboutPage() {
       })
       .use(rehypeKatex)
       .use(rehypeFillImageAlt)
+      // 安全消毒：剥离 script/iframe/事件属性/javascript: 协议等危险内容（存储型 XSS 防护）
+      .use(rehypeSanitizeSafe)
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(content);
 

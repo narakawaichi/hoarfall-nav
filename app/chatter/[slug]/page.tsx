@@ -13,6 +13,7 @@ import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
 import rehypeKatex from 'rehype-katex';
+import rehypeSanitize from 'rehype-sanitize';
 
 //  引入神仙代码高亮主题（Atom One Dark）
 import 'highlight.js/styles/atom-one-dark.css';
@@ -120,6 +121,8 @@ async function getChatterData(slug: string) {
     })
     .use(rehypeKatex)
     .use(rehypeFillImageAlt)
+    // 安全消毒：剥离 script/iframe/事件属性/javascript: 协议等危险内容（存储型 XSS 防护）
+    .use(rehypeSanitize)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content);
 

@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // 关闭 dev 模式的 Next.js 指示器（左下角那个 "N" 浮标）；生产构建本就不显示
+  devIndicators: false,
   typescript: {
     ignoreBuildErrors: true, // 忽略 TS 错误，方便快速部署
   },

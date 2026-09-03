@@ -26,6 +26,7 @@ import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
 import { buildMetadata, stripMarkdown } from '@/lib/seo';
 import { rehypeFillImageAlt } from '@/lib/markdown';
+import rehypeSanitizeSafe from '@/lib/sanitize';
 
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');

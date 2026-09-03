@@ -14,6 +14,21 @@ export type SeoPageRule = {
 /** 站点基准 URL（无尾斜杠），用于 canonical / sitemap / OG 绝对地址 */
 export const SITE_URL = String(siteConfig.baseUrl || "").replace(/\/+$/, "");
 
+/** 固定路由页 → 默认 canonical 路径；动态模板页(post/chatterDetail)由调用方显式传 canonicalPath */
+const DEFAULT_CANONICAL_PATH: Partial<Record<SeoPageKey, string>> = {
+  home: "/",
+  posts: "/posts",
+  chatter: "/chatter",
+  moments: "/moments",
+  photowall: "/photowall",
+  music: "/music",
+  friends: "/friends",
+  projects: "/projects",
+  timeline: "/timeline",
+  about: "/about",
+  tree: "/tree",
+};
+
 export interface BuildMetadataOptions {
   page: SeoPageKey;
   /** 动态页覆盖标题（文章/杂谈标题） */
@@ -54,10 +69,12 @@ export function buildMetadata(opts: BuildMetadataOptions): Metadata {
     ...(opts.keywords ?? rule?.keywords ?? siteConfig.seo.defaultKeywords),
   ];
   const ogImage = opts.ogImage ?? rule?.ogImage ?? siteConfig.seo.ogImage;
-  const canonical = new URL(
-    opts.canonicalPath ?? rule?.canonicalPath ?? "/",
-    SITE_URL
-  ).toString();
+  const canonicalPath =
+    opts.canonicalPath ??
+    rule?.canonicalPath ??
+    DEFAULT_CANONICAL_PATH[opts.page] ??
+    "/";
+  const canonical = new URL(canonicalPath, SITE_URL).toString();
   const fullTitle = `${title} | ${siteConfig.title}`;
   const isArticle = opts.page === "post" || opts.page === "chatterDetail";
 

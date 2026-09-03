@@ -67,6 +67,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   document.documentElement.classList.add('splash-seen');
                 }
               } catch (e) {}
+              // 兜底保险：无论任何原因（JS 异常/存储不可用），4 秒后强制解封内容，避免手机端永久白屏
+              setTimeout(function () {
+                document.documentElement.classList.add('splash-seen');
+              }, 4000);
             `
           }}
         />
