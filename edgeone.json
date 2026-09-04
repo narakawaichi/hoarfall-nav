@@ -3,13 +3,7 @@
   "installCommand": "npm install",
   "outputDirectory": ".next",
   "nodeVersion": "22.11.0",
-  "redirects": [
-    {
-      "source": "https://hoarfall-nav-er4nxjaq.edgeone.cool/:path*",
-      "destination": "https://nav.hoarfall.cn/:path*",
-      "statusCode": 301
-    }
-  ],
+  "redirects": [],
   "rewrites": [],
   "headers": [
     {
