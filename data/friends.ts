@@ -26,4 +26,12 @@ export const friendsData: Friend[] = [
     avatar: "https://www.xinenw.cn/wp-content/uploads/2025/12/KX.jpg",
     themeColor: "#f97316",
   },
+  {
+    id: "vziy",
+    name: "微资源",
+    url: "https://vziy.cn/",
+    description: "专业游戏素材下载网站，专注提供梦幻西游、问道手游、传奇全套游戏素材：UI 界面、序列帧特效、翅膀、宠物、地图、贴图、称号等高清美术资源。",
+    avatar: "https://img.hoarfall.cn/A/6a9e3570d5562.webp",
+    themeColor: "#14b8a6",
+  },
 ];
